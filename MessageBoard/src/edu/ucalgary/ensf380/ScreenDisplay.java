@@ -6,6 +6,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+/**
+ * The facilitator of all of the GUI logic. 
+ * @author Adam Yuen <a href="mailto:adam.yuen@ucalgary.ca">adam.yuen@ucalgary.ca</a>
+ * @version 1.1
+ * @since 1.0
+ */
 public class ScreenDisplay extends JFrame {
     private static final long serialVersionUID = 1L;
     private JPanel advertisementPanel;
@@ -20,10 +26,17 @@ public class ScreenDisplay extends JFrame {
     private List<String> newsTitles;
     private int currentTitleIndex = 0;
     
+    /**
+     * The constructor will initialize the GUI and call all associated functions for displaying info.
+     * @param cityName denotes which city the weather and news will be fetched for.
+     * @param startDate denotes the start time for the news to be fetched from. (format: yyyy-mm-dd)
+     * @param endDate denotes the end time for the news to be fetched from. (format: yyyy-mm-d)
+     * @param sortOrder use default of publishedAt. 
+     */
     public ScreenDisplay(String cityName, String startDate, String endDate, String sortOrder) {
         setTitle("Transit Information System");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1000, 700);
+        setSize(1200, 720);
         setLocationRelativeTo(null);
         
         advertisementPanel = new JPanel();
@@ -79,22 +92,22 @@ public class ScreenDisplay extends JFrame {
         add(trainScreen, gridLayoutSetup);
         
         // Display one ad
-        String adPath = "src\\edu\\ucalgary\\ensf380\\testImage.jpg";
+        String adPath = "src\\edu\\ucalgary\\ensf380\\placeholderAd.jpg";
         ImageIcon adIcon = new ImageIcon(adPath); 
-        Image resizedAd = adIcon.getImage().getScaledInstance(733, 500, Image.SCALE_SMOOTH);
+        Image resizedAd = adIcon.getImage().getScaledInstance(500, 333, Image.SCALE_SMOOTH);
         ImageIcon resizedAdIcon = new ImageIcon(resizedAd);
         JLabel adLabel = new JLabel();
         adLabel.setIcon(resizedAdIcon);
         
         // Map image - will need to be replaced later. 
         JLabel mapLabel = new JLabel();
-        String mapPath = "src\\edu\\ucalgary\\ensf380\\testImage.jpg";
+        String mapPath = "src\\edu\\ucalgary\\ensf380\\Trains.png";
         ImageIcon mapIcon = new ImageIcon(mapPath); 
-        Image resizedMap = mapIcon.getImage().getScaledInstance(680, 430, Image.SCALE_SMOOTH);
+        Image resizedMap = mapIcon.getImage().getScaledInstance(472, 264, Image.SCALE_SMOOTH);
         ImageIcon resizedMapIcon = new ImageIcon(resizedMap);
         mapLabel.setIcon(resizedMapIcon);
         
-        // swapping maps and images - will not be able to use the boolean for this one.
+        // swapping maps and images - will not be able to use the boolean for this one once we integrate all images
         advertisementPanel.setPreferredSize(new Dimension(633, 400));
         advertisementPanel.add(adLabel);
         adTimer = new Timer(10000, new ActionListener() {
@@ -149,6 +162,10 @@ public class ScreenDisplay extends JFrame {
         newsHeadlineScroller();
     }
 
+    /**
+     * The main function that will run the GUI. Invokes the GUI constructor, which runs everything else.
+     * @param args
+     */
     public static void main(String[] args) {
         if (args.length != 4) {
             System.out.println("Usage: SubwayScreenPrac <city_name> <start_date> <end_date> <sort_order>");
@@ -163,7 +180,16 @@ public class ScreenDisplay extends JFrame {
         });
     } 
 
-    //Place text on the screen - function to format everything
+    /**
+     * This method will place text at a given location on the screen.
+     * @param current determines the JTextArea to be added
+     * @param screen determines the panel the text should be added to
+     * @param size determines the size of the text
+     * @param top: width of top border
+     * @param left: width of left border
+     * @param bottom: width of bottom border
+     * @param right width of right border
+     */
     public void insertText(JTextArea current, JPanel screen, int size, int top, int left, int bottom, int right) {
         current.setFont(new Font("Ubuntu", Font.BOLD, size));
         current.setForeground(Color.WHITE);
@@ -176,14 +202,9 @@ public class ScreenDisplay extends JFrame {
         screen.add(current, BorderLayout.CENTER);
     }
     
-    //Place image on the screen
-    public void insertPicture(JLabel weatherLabel, String weatherPath, int w, int h) {
-        ImageIcon weatherIcon = new ImageIcon(weatherPath); 
-        Image resizedWeather = weatherIcon.getImage().getScaledInstance(w, h, Image.SCALE_SMOOTH);
-        ImageIcon resizedWeatherIcon = new ImageIcon(resizedWeather);
-        weatherLabel.setIcon(resizedWeatherIcon);
-    }
-
+    /**
+     * Performs the scrolling text for the news headlines.
+     */
     public void newsHeadlineScroller() {
         newsLabel = new JLabel(newsTitles.get(0));
         newsLabel.setFont(new Font("Ubuntu", Font.BOLD, 32));

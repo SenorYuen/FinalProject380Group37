@@ -14,7 +14,8 @@ public class NewsFetcher {
 
     /**
     * This method will accept command line arguments and fetch information from the newsapi.org api
-    *
+    * @author Adam Yuen <a href="mailto:adam.yuen@ucalgary.ca">adam.yuen@ucalgary.ca</a>
+    * @Version 1.1
     * @param city      The city for which to fetch news headlines.
     * @param startDate The start date for fetching news headlines.
     * @param endDate   The end date for fetching news headlines.

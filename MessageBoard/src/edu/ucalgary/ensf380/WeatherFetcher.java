@@ -9,6 +9,12 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * The WeatherFetcher class will fetch weather information for a given city.
+ * @author Adam Yuen <a href="mailto:adam.yuen@ucalgary.ca">adam.yuen@ucalgary.ca</a>
+ * @version 1.1
+ * @since 1.0
+ */
 public class WeatherFetcher {
 
     private static final Logger log = Logger.getLogger(WeatherFetcher.class.getName());
@@ -19,27 +25,50 @@ public class WeatherFetcher {
     private static String humidity;
     private static String rain;
 
+    /**
+     * Get the current conditions of a city (eg, "Sunny")
+     * @return the condition as a string.
+     */
     public String getCondition() {
         return condition;
     }
     
+    /**
+     * Get the temperature of a city (in celsius)
+     * @return a string containing the temperature.
+     */
     public String getTemperature() {
         return temperature;
     }
     
+    /**
+     * Return the wind speed and direction
+     * @return a string containing the wind information
+     */
     public String getWind() {
         return wind;
     }
     
+    /**
+     * Get the percent of humidity in the air.
+     * @return a string containing the humidity information.
+     */
     public String getHumidity() {
         return humidity;
     }
     
+    /**
+     * Get the preciptation expected for the day.
+     * @return the rainfall ammount in mm as a string.
+     */
     public String getRain() {
         return rain;
     }
     
-
+    /**
+     * The constructor that will facilitate all of the weather fetching. 
+     * @param city determines what city the to fetch weather info from.
+     */
     public WeatherFetcher(String city) {
         // Store the desired city and call the fetch function.
         String targetCity = city;
@@ -54,6 +83,11 @@ public class WeatherFetcher {
         }
     }
 
+    /**
+     * Retrieves the weather info from the API endpoint specified
+     * @param city (a string containing the city to fetch info for)
+     * @return null if unsuccessful, or a string containing the API response.
+     */
     public static String retrieveWeatherData(String city) {
         // Format the fetched data in the requested way
         String apiEndpoint = "https://wttr.in/" + city + "?format=%C+%t+%w+%h+%p";
@@ -93,6 +127,10 @@ public class WeatherFetcher {
         }
     }
 
+    /**
+     * Parse the API data into readable text using regex.
+     * @param data (a string containing the unfiltered, raw fetch data)
+     */
     public static void analyzeAndShowWeatherData(String data) {
         try {
             /*  EXPLANATION OF THE REGULAR EXPRESSION FOR PARSING THE API DATA:

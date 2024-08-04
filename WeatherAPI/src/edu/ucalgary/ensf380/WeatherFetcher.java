@@ -9,19 +9,69 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * The WeatherFetcher class will fetch weather information for a given city.
+ * @author Adam Yuen <a href="mailto:adam.yuen@ucalgary.ca">adam.yuen@ucalgary.ca</a>
+ * @version 1.1
+ * @since 1.0
+ */
 public class WeatherFetcher {
 
     private static final Logger log = Logger.getLogger(WeatherFetcher.class.getName());
+    
+    private static String condition;
+    private static String temperature;
+    private static String wind;
+    private static String humidity;
+    private static String rain;
 
-    public static void main(String[] args) {
-        // If the command line argument is not provided, ensure that the user provides one.
-        if (args.length != 1) {
-            log.log(Level.SEVERE, "Use the command line command: java WeatherFetcher <city>");
-            return;
-        }
-
+    /**
+     * Get the current conditions of a city (eg, "Sunny")
+     * @return the condition as a string.
+     */
+    public String getCondition() {
+        return condition;
+    }
+    
+    /**
+     * Get the temperature of a city (in celsius)
+     * @return a string containing the temperature.
+     */
+    public String getTemperature() {
+        return temperature;
+    }
+    
+    /**
+     * Return the wind speed and direction
+     * @return a string containing the wind information
+     */
+    public String getWind() {
+        return wind;
+    }
+    
+    /**
+     * Get the percent of humidity in the air.
+     * @return a string containing the humidity information.
+     */
+    public String getHumidity() {
+        return humidity;
+    }
+    
+    /**
+     * Get the preciptation expected for the day.
+     * @return the rainfall ammount in mm as a string.
+     */
+    public String getRain() {
+        return rain;
+    }
+    
+    /**
+     * The constructor that will facilitate all of the weather fetching. 
+     * @param city determines what city the to fetch weather info from.
+     */
+    public WeatherFetcher(String city) {
         // Store the desired city and call the fetch function.
-        String targetCity = args[0];
+        String targetCity = city;
         String weatherInfo = retrieveWeatherData(targetCity);
 
         // Make sure the fetched data actually exists - change later when putting it in the GUI
@@ -33,7 +83,12 @@ public class WeatherFetcher {
         }
     }
 
-    private static String retrieveWeatherData(String city) {
+    /**
+     * Retrieves the weather info from the API endpoint specified
+     * @param city (a string containing the city to fetch info for)
+     * @return null if unsuccessful, or a string containing the API response.
+     */
+    public static String retrieveWeatherData(String city) {
         // Format the fetched data in the requested way
         String apiEndpoint = "https://wttr.in/" + city + "?format=%C+%t+%w+%h+%p";
         try {
@@ -72,19 +127,23 @@ public class WeatherFetcher {
         }
     }
 
+    /**
+     * Parse the API data into readable text using regex.
+     * @param data (a string containing the unfiltered, raw fetch data)
+     */
     public static void analyzeAndShowWeatherData(String data) {
         try {
             /*  EXPLANATION OF THE REGULAR EXPRESSION FOR PARSING THE API DATA:
              *  (\\w+): obtains one or more alphanumeric characters. Places it in a capturing group.
-             *      this one will caputre the weather condition in the parsed data (Sunny)
-             *  (\\s+): This capture group will caputre one or more whitespace chracters.
-             *  ([+-]?\\d+°C): this will capture an optional +- that would preceed the temperature value.
+             *      this one will capture the weather condition in the parsed data (Sunny)
+             *  (\\s+): This capture group will capture one or more whitespace characters.
+             *  ([+-]?\\d+°C): this will capture an optional +- that would precede the temperature value.
              *      \\d+ will match at least one digit
-             *      °C will find a physical match (we will be limited to celsius with this one)
-             *  (\\s+): anotehr capture group
+             *      °C will find a physical match (we will be limited to Celsius with this one)
+             *  (\\s+): another capture group
              *  (\\d+%): this will capture the percent humidity (one or more numbers, and a percent (direct match))
-             *  (\\s+): anotehr capture group
-             *  (\\d+\\.\\d+mm): this will caputre the precipitation value.
+             *  (\\s+): another capture group
+             *  (\\d+\\.\\d+mm): this will capture the precipitation value.
              *      \\d+ for one or more digits
              *      \\. will match a dot for the decimal point.
              *      mm will literally match mm for the precipitation.
@@ -93,20 +152,13 @@ public class WeatherFetcher {
             Pattern compiledPattern = Pattern.compile(pattern);
             Matcher matcher = compiledPattern.matcher(data);
 
-            //Seperate all of the caputred things into specific strings.
+            // Separate all of the captured things into specific strings.
             if (matcher.find()) {
-                String condition = matcher.group(1);
-                String temp = matcher.group(2);
-                String windSpeed = matcher.group(3);
-                String humidityLevel = matcher.group(4);
-                String rainfall = matcher.group(5);
-
-                //Tentative: print the values temporarily
-                System.out.println("Condition: " + condition);
-                System.out.println("Temperature: " + temp);
-                System.out.println("Wind: " + windSpeed);
-                System.out.println("Humidity: " + humidityLevel);
-                System.out.println("Precipitation: " + rainfall);
+                condition = matcher.group(1);
+                temperature = matcher.group(2);
+                wind = matcher.group(3);
+                humidity = matcher.group(4);
+                rain = matcher.group(5);
             } else {
                 throw new IllegalArgumentException("Weather data is not formatted properly.");
             }
