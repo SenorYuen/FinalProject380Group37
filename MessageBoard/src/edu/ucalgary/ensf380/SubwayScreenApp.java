@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.Timer;
 
 public class SubwayScreenApp {
     private static List<Station> stationsList = new ArrayList<>(); // List to store stations
@@ -43,8 +44,18 @@ public class SubwayScreenApp {
         SubwaySimulator simulator = new SubwaySimulator(stations, trains, mapDisplay, currentTrain, "out");
         simulator.startSimulation();
 
-        javax.swing.Timer timer = new javax.swing.Timer(15000, e -> {
+        // Display the previous and next stations for the selected train
+        ArrayList<String> routeInfo = simulator.displayTrainRoute(currentTrain);
+        for (String info : routeInfo) {
+            System.out.println(info);
+        }
+
+        Timer timer = new Timer(15000, e -> {
             simulator.updatePositions();
+            ArrayList<String> updatedRouteInfo = simulator.displayTrainRoute(currentTrain);
+            for (String info : updatedRouteInfo) {
+                System.out.println(info);
+            }
         });
         timer.start();
     }

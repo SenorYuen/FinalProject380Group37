@@ -8,22 +8,23 @@ import java.util.List;
 
 public class MapParser {
     public List<Station> parseStations(String filePath) {
-        // Method to parse stations from a CSV file
+        //This method anaylzes the stations from a CSV file
 
         List<Station> stations = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
-            reader.readLine(); // Skip header
+            reader.readLine(); //This skips the header in the csv file
             while ((line = reader.readLine()) != null) {
-                // Split the line into details
+                
                 String[] details = line.split(",");
-                String lineCode = details[0]; // Line code of the station
-                String stationCode = details[1]; // Station code
-                String stationName = details[2]; // Name of the station
-                double x = Double.parseDouble(details[3]); // X coordinate
-                double y = Double.parseDouble(details[4]); // Y coordinate
+                String lineCode = details[0]; //The is the line code of the station
+                String stationCode = details[1]; //This is the Station code
+                String stationName = details[2]; // his is the Name of the station
+                double x = Double.parseDouble(details[3]); //The X coordinate of the station
+                double y = Double.parseDouble(details[4]); //The Y coordinate of the station
 
-                // Create a new station with the parsed details
+                //Create a new station with the parsed details
+                //This c
                 Station station = new Station(lineCode, stationCode, stationName, x, y);
                 stations.add(station); // Add the station to the list
             }
