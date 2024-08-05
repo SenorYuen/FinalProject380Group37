@@ -4,16 +4,18 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import javax.swing.Timer;
+import java.util.ArrayList;
 
 public class SubwaySimulator {
-    private TrainPositionUpdater trainPositionUpdater; // Updates the positions of the trains
-    private List<Train> trains; // List of trains in the simulation
-    private MapDisplay mapDisplay; // Map display for visual representation
-    private Train currentTrain; // Current train to be highlighted
-    private String outputDir; // Directory for output files
+    private TrainPositionUpdater trainPositionUpdater;
+    private List<Train> trains;
+    private MapDisplay mapDisplay;
+    private Train currentTrain;
+    private String outputDir;
+    private Timer timer;
 
     public SubwaySimulator(List<Station> stations, List<Train> trains, MapDisplay mapDisplay, Train currentTrain, String outputDir) {
-        // Constructor to initialize the SubwaySimulator
         this.trains = trains;
         this.mapDisplay = mapDisplay;
         this.trainPositionUpdater = new TrainPositionUpdater(stations);
@@ -22,19 +24,27 @@ public class SubwaySimulator {
     }
 
     public void startSimulation() {
-        // Method to start the subway simulation
-
         // Initial update
         updatePositions();
 
+        // Display route for the current train
+        displayTrainRoute(currentTrain);
+
         // Set up a timer to update positions every 15 seconds
-        javax.swing.Timer timer = new javax.swing.Timer(15000, e -> updatePositions());
-        timer.start();
+        if (timer == null) { // Ensure only one timer is created
+            timer = new Timer(15000, e -> {
+                updatePositions();
+                displayTrainRoute(currentTrain);
+            });
+            timer.start();
+            System.out.println("Simulation started. Timer set to update every 15 seconds.");
+        } else {
+            System.out.println("Simulation already running.");
+        }
     }
 
     public void updatePositions() {
-        // Method to update train positions using the latest data
-
+        System.out.println("Updating positions...");
         for (Train train : trains) {
             updateTrainPosition(train);
         }
@@ -43,8 +53,6 @@ public class SubwaySimulator {
     }
 
     private void updateTrainPosition(Train train) {
-        // Method to update the position of a single train
-
         Line line = train.getCurrentLine();
         List<Station> stations = line.getStations();
         int currentIndex = stations.indexOf(train.getCurrentStation());
@@ -62,8 +70,6 @@ public class SubwaySimulator {
     }
 
     private void printTrainPositions() {
-        // Method to print the current positions of the trains to the console and write them to a file
-
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputDir + "/train_positions.txt"))) {
             for (Train train : trains) {
                 String position = String.format("Train %s is at station %s (%f, %f)%n",
@@ -75,5 +81,34 @@ public class SubwaySimulator {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    
+    public ArrayList<String> displayTrainRoute(Train train) {
+        Line line = train.getCurrentLine();
+        List<Station> stations = line.getStations();
+        int currentIndex = stations.indexOf(train.getCurrentStation());
+        int numStations = stations.size();
+        String direction = train.getDirection();
+    
+        ArrayList<String> routeInfo = new ArrayList<>();
+    
+        routeInfo.add("Train " + train.getTrainNum() + " Direction: " + direction);
+    
+        // Add the previous station if it exists
+        if (currentIndex > 0) {
+            Station previousStation = stations.get((currentIndex - 1 + numStations) % numStations);
+            routeInfo.add("Previous Station: " + previousStation.getStationName());
+        } else {
+            routeInfo.add("Previous Station: None (this is the first station)");
+        }
+    
+        // Add the next four stations
+        for (int i = 1; i <= 4; i++) {
+            int nextIndex = (currentIndex + i) % numStations;
+            Station nextStation = stations.get(nextIndex);
+            routeInfo.add("Next Station " + i + ": " + nextStation.getStationName());
+        }
+    
+        return routeInfo;
     }
 }

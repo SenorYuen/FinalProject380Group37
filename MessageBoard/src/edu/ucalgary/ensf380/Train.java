@@ -76,3 +76,5 @@ public class Train {
     public void setDestination(Station destination) {
         // Set the destination station of the train
         this.destination = destination;
+    }
+}
