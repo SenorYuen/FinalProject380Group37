@@ -33,24 +33,3 @@ public class MapParser {
         return stations; // Return the list of stations
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

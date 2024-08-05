@@ -63,28 +63,3 @@ public class Station {
     public String getName() {
         // Get the name of the station (this method is added for compatibility with the Line class)
         return stationName;
-    }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

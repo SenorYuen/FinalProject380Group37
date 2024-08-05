@@ -77,10 +77,3 @@ public class SubwaySimulator {
         }
     }
 }
-
-
-
-
-
-
-
