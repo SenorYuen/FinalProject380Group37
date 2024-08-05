@@ -76,28 +76,34 @@ public class NewsFetcher {
     }
 
     /**
-    * The main method that runs the NewsApi fetching logic.
-    *
+    * The main method that runs the NewsApi fetching logic. 
+    * Included are some test cases that will determine if everything works.
     * @param args CLI arguments are of city, startDate, endDate, sortOrder.
     */
     public static void main(String[] args) {
-        if (args.length < 4) {
-            System.out.println("Usage: java NewsApiClient <city> <startDate> <endDate> <sortOrder>");
-            return;
+        //Test cases that emulate and autmate the process of adding things in by command line. 
+        String[] testArgs1 = {"Calgary", "2024-08-01", "2024-08-02", "popularity"};
+        String[] testArgs2 = {"Toronto", "2024-08-01", "2024-08-02", "relevancy"};
+        String[] testArgs3 = {"Vancouver", "2024-08-01", "2024-08-02", "publishedAt"};
+
+        System.out.println("Test Case 1: Calgary News");
+        NewsFetcher test1 = new NewsFetcher(testArgs1[0], testArgs1[1], testArgs1[2], testArgs1[3]);
+        for (String title : test1.getHeadlines()) {
+            System.out.println(title);
         }
 
-        String city = args[0];
-        String startDate = args[1];
-        String endDate = args[2];
-        String sortOrder = args[3];
+        System.out.println("\n\nTest Case 2: Toronto News");
+        NewsFetcher test2 = new NewsFetcher(testArgs2[0], testArgs2[1], testArgs2[2], testArgs2[3]);
+        for (String title : test2.getHeadlines()) {
+            System.out.println(title);
+        }
 
-        
-        //new apiClient(city, startDate, endDate, sortOrder);
-        NewsFetcher newsApiClient = new NewsFetcher(city, startDate, endDate, sortOrder);
-        // Print the news titles to the console
-        for (String title : newsApiClient.getHeadlines()) {
+        System.out.println("\n\nTest Case 3: Vancouver News");
+        NewsFetcher test3 = new NewsFetcher(testArgs3[0], testArgs3[1], testArgs3[2], testArgs3[3]);
+        for (String title : test3.getHeadlines()) {
             System.out.println(title);
         }
     }
+
 }
 

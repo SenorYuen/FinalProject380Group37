@@ -5,6 +5,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * The facilitator of all of the GUI logic. 
@@ -22,9 +24,16 @@ public class ScreenDisplay extends JFrame {
     private Timer adTimer;
     private Timer newsTimer;
     private JLabel newsLabel;
+    private String timeToDisplay;
+    private JLabel adLabel;
+    private ImageIcon resizedAdIcon;
 
     private List<String> newsTitles;
     private int currentTitleIndex = 0;
+    
+    private List<String> imageURLs;
+    private int currentURLIndex = 0;
+    private final int numberOfAds;
     
     /**
      * The constructor will initialize the GUI and call all associated functions for displaying info.
@@ -91,13 +100,7 @@ public class ScreenDisplay extends JFrame {
         gridLayoutSetup.gridheight = 1;
         add(trainScreen, gridLayoutSetup);
         
-        // Display one ad
-        String adPath = "src\\edu\\ucalgary\\ensf380\\placeholderAd.jpg";
-        ImageIcon adIcon = new ImageIcon(adPath); 
-        Image resizedAd = adIcon.getImage().getScaledInstance(500, 333, Image.SCALE_SMOOTH);
-        ImageIcon resizedAdIcon = new ImageIcon(resizedAd);
-        JLabel adLabel = new JLabel();
-        adLabel.setIcon(resizedAdIcon);
+        numberOfAds = 10;
         
         // Map image - will need to be replaced later. 
         JLabel mapLabel = new JLabel();
@@ -107,47 +110,63 @@ public class ScreenDisplay extends JFrame {
         ImageIcon resizedMapIcon = new ImageIcon(resizedMap);
         mapLabel.setIcon(resizedMapIcon);
         
+    adLabel = new JLabel();
+    setImage("src\\edu\\ucalgary\\ensf380\\placeholderAd.jpg");
+        
         // swapping maps and images - will not be able to use the boolean for this one once we integrate all images
         advertisementPanel.setPreferredSize(new Dimension(633, 400));
         advertisementPanel.add(adLabel);
-        adTimer = new Timer(10000, new ActionListener() {
-            private boolean x = true;
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (x) {
-                    adLabel.setIcon(resizedMapIcon);
-                    adTimer.setInitialDelay(5000); // map?
-                } else {
-                    adLabel.setIcon(resizedAdIcon);
-                    adTimer.setInitialDelay(10000); // ad
-                }
-                x = !x;
-            }
-        });
-
-        adTimer.start();
 
         //Handle the weather displaying. 
         weatherScreen.setLayout(new BorderLayout());
         WeatherFetcher weatherData = new WeatherFetcher(cityName);
-     
+        
         //Use getters to obtain all of the data fetched by the API.
         String displayCondition = weatherData.getCondition();
         String displayTemp = weatherData.getTemperature();
         String displayHumidity = weatherData.getHumidity();
         String displayWindSpeed = weatherData.getWind();
         String displayRain = weatherData.getRain();
-        String displayTime = java.time.LocalDateTime.now().toString(); //TODO: UPDATE THIS THING LATER.
+        setTime();
         
         //Create a text label to add the weather.
         JTextArea weatherInfo = new JTextArea(
-                displayTime + 
+                timeToDisplay + 
                 "\nCurrently: " + displayCondition + ", " + displayTemp + 
                 "\nHumidity: " + displayHumidity + 
                 "\nWind Speed: " + displayWindSpeed +
                 "\nRain today: " + displayRain);
         insertText(weatherInfo, weatherScreen, 20, 1, 50, 20, 20);
+
+        adTimer = new Timer(10000, new ActionListener() {
+            boolean x = true;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (x) {
+                    adLabel.setIcon(resizedMapIcon);
+                    adTimer.setInitialDelay(5000); // display the map for 5 seconds
+                } else {
+                	//String currentURL = currentURLIndex.get(currentURLIndex);
+                	//setImage(currentURL);
+                    adLabel.setIcon(resizedAdIcon);
+                    adTimer.setInitialDelay(10000); // display the ad for 10 seconds
+                }
+                setTime();
+                
+                //Create a text label to add the weather.
+                JTextArea weatherInfo = new JTextArea(
+                        timeToDisplay + 
+                        "\nCurrently: " + displayCondition + ", " + displayTemp + 
+                        "\nHumidity: " + displayHumidity + 
+                        "\nWind Speed: " + displayWindSpeed +
+                        "\nRain today: " + displayRain);
+                insertText(weatherInfo, weatherScreen, 20, 1, 50, 20, 20);
+                x = !x;
+            }
+        });
+
+        adTimer.start();
         
         //Create a new news instance and fetch the data. Use the getter to put it in a list.
         NewsFetcher newsApiClient = new NewsFetcher(cityName, startDate, endDate, sortOrder);
@@ -233,6 +252,24 @@ public class ScreenDisplay extends JFrame {
         });
 
         newsTimer.start();
+    }
+    
+    /** Sets the time locally so it can be updated on the display. 
+     * 	Does not accept parameters or return anything. 
+     */
+    public void setTime() {
+    	String time = java.time.LocalDateTime.now().toString();
+    	LocalDateTime dateObject = LocalDateTime.parse(time);
+    	DateTimeFormatter targetFormat = DateTimeFormatter.ofPattern("MMMM dd, yyyy hh:mm a");
+    	timeToDisplay = dateObject.format(targetFormat);
+    }
+    
+    public void setImage(String path) {
+        String adPath = path;
+        ImageIcon adIcon = new ImageIcon(adPath); 
+        Image resizedAd = adIcon.getImage().getScaledInstance(500, 333, Image.SCALE_SMOOTH);
+        resizedAdIcon = new ImageIcon(resizedAd);
+        adLabel.setIcon(resizedAdIcon);
     }
 
 }
