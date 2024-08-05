@@ -9,7 +9,7 @@ import java.util.List;
 
 public class InsertImage {
 
-    public static void InsertImagesIntoDB() {
+    public InsertImage(String sqlPassword) {
         List<String> imagePaths = Arrays.asList(
             "..\\AdvertisementImages\\BMW.jpg",
             "..\\AdvertisementImages\\Cat.jpg",
@@ -19,7 +19,7 @@ public class InsertImage {
 
         String url = "jdbc:mysql://localhost:3306/SubwayScreenAdvertisements";
         String user = "root";
-        String password = "pleasework";
+        String password = sqlPassword;
 
         try (Connection conn = DriverManager.getConnection(url, user, password)) {
             String sql = "INSERT INTO images (image_path) VALUES (?)";

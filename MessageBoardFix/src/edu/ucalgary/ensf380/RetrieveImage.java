@@ -18,8 +18,8 @@ public class RetrieveImage {
     private static int currentIndex = 0;
     private static JLabel label;
 
-    public RetrieveImage() {
-        fetchImagePaths();
+    public RetrieveImage(String sqlPassword) {
+        fetchImagePaths(sqlPassword);
         if (!imagePaths.isEmpty()) {
             //displayImage();
         } else {
@@ -27,10 +27,10 @@ public class RetrieveImage {
         }
     }
 
-    public static void fetchImagePaths() {
+    public static void fetchImagePaths(String sqlPassword) {
         String url = "jdbc:mysql://localhost:3306/SubwayScreenAdvertisements";
         String user = "root";
-        String password = "pleasework";
+        String password = sqlPassword;
 
         try (Connection conn = DriverManager.getConnection(url, user, password)) {
             String sql = "SELECT image_path FROM images";
