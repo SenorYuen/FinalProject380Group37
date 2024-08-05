@@ -1,0 +1,1 @@
+memberSearchIndex = [{"p":"edu.ucalgary.ensf380","c":"NewsFetcher","l":"getHeadlines()"},{"p":"edu.ucalgary.ensf380","c":"NewsFetcher","l":"main(String[])","url":"main(java.lang.String[])"},{"p":"edu.ucalgary.ensf380","c":"NewsFetcher","l":"NewsFetcher(String, String, String, String)","url":"%3Cinit%3E(java.lang.String,java.lang.String,java.lang.String,java.lang.String)"}]
