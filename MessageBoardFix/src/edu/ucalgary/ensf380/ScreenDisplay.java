@@ -32,8 +32,8 @@ public class ScreenDisplay extends JFrame {
     private int currentTitleIndex = 0;
     
     private List<String> imageURLs;
-    private int currentURLIndex = 0;
-    private int numberOfAds;
+    private int currentURLIndex = -1;
+    private final int numberOfAds;
     
     /**
      * The constructor will initialize the GUI and call all associated functions for displaying info.
@@ -45,7 +45,7 @@ public class ScreenDisplay extends JFrame {
     public ScreenDisplay(String cityName, String startDate, String endDate, String sortOrder) {
         setTitle("Transit Information System");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1200, 720);
+        setSize(1280, 720);
         setLocationRelativeTo(null);
         
         advertisementPanel = new JPanel();
@@ -100,8 +100,6 @@ public class ScreenDisplay extends JFrame {
         gridLayoutSetup.gridheight = 1;
         add(trainScreen, gridLayoutSetup);
         
-        numberOfAds = 10;
-        
         // Map image - will need to be replaced later. 
         JLabel mapLabel = new JLabel();
         String mapPath = "src\\edu\\ucalgary\\ensf380\\Trains.png";
@@ -110,8 +108,9 @@ public class ScreenDisplay extends JFrame {
         ImageIcon resizedMapIcon = new ImageIcon(resizedMap);
         mapLabel.setIcon(resizedMapIcon);
         
-    adLabel = new JLabel();
-    setImage("src\\edu\\ucalgary\\ensf380\\placeholderAd.jpg");
+        InsertImage insert = new InsertImage();
+	    adLabel = new JLabel();
+	    setImage("src\\edu\\ucalgary\\ensf380\\placeholderAd.jpg");
         
         // swapping maps and images - will not be able to use the boolean for this one once we integrate all images
         advertisementPanel.setPreferredSize(new Dimension(633, 400));
@@ -151,13 +150,14 @@ public class ScreenDisplay extends JFrame {
                     adLabel.setIcon(resizedMapIcon);
                     adTimer.setInitialDelay(5000); // display the map for 5 seconds
                 } else {
-                	String currentURL = imageURLs.get(currentURLIndex);
-                	if (currentURLIndex > numberOfAds) {
+                	System.out.println(currentURLIndex);
+                	if (currentURLIndex == (numberOfAds - 1)) {
                 		currentURLIndex = 0;
                 	}
                 	else {
                 		currentURLIndex ++;
                 	}
+                	String currentURL = imageURLs.get(currentURLIndex);
                 	setImage(currentURL);
                     adLabel.setIcon(resizedAdIcon);
                     adTimer.setInitialDelay(10000); // display the ad for 10 seconds
@@ -277,7 +277,7 @@ public class ScreenDisplay extends JFrame {
     public void setImage(String path) {
         String adPath = path;
         ImageIcon adIcon = new ImageIcon(adPath); 
-        Image resizedAd = adIcon.getImage().getScaledInstance(500, 333, Image.SCALE_SMOOTH);
+        Image resizedAd = adIcon.getImage().getScaledInstance(600, 600, Image.SCALE_SMOOTH);
         resizedAdIcon = new ImageIcon(resizedAd);
         adLabel.setIcon(resizedAdIcon);
     }

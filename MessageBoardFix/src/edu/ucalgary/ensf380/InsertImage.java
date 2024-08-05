@@ -9,7 +9,7 @@ import java.util.List;
 
 public class InsertImage {
 
-    public static void main(String[] args) {
+    public static void InsertImagesIntoDB() {
         List<String> imagePaths = Arrays.asList(
             "..\\AdvertisementImages\\BMW.jpg",
             "..\\AdvertisementImages\\Cat.jpg",
