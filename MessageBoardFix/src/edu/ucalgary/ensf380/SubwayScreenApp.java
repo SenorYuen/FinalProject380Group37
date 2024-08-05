@@ -1,27 +1,42 @@
 package edu.ucalgary.ensf380;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SubwayScreenApp {
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+
+public class SubwayScreenApp extends JPanel{
     private static List<Station> stationsList = new ArrayList<>(); // List to store stations
     private static List<Line> lineList = new ArrayList<>(); // List to store lines
     private static List<Train> trainList = new ArrayList<>(); // List to store trains
     private static Line red, blue, green; // Line objects for red, blue, and green lines
     private static Train currentTrain; // The current train to be highlighted
+    private static JFrame mapFrame;
 
-    public static void main(String[] args) {
-        // Main method to run the Subway Screen Application
+    public List<Station> getStationsList() {
+		return stationsList;
+	}
 
-        if (args.length != 2 || !args[0].equals("-c")) {
-            System.err.println("Usage: java SubwayScreenApp -c <train_number>");
-            System.exit(1);
-        }
+	public static void setStationsList(List<Station> stationsList) {
+		SubwayScreenApp.stationsList = stationsList;
+	}
 
-        int currentTrainNumber = Integer.parseInt(args[1]); // Get the current train number from command-line arguments
+	public List<Train> getTrainList() {
+		return trainList;
+	}
+
+	public static void setTrainList(List<Train> trainList) {
+		SubwayScreenApp.trainList = trainList;
+	}
+
+	public SubwayScreenApp(int currentTrainNumber) {
 
         // Initialize the subway system
         initializeSubwaySystem("data/subway.csv", "data/Trains_1680832574555.csv");
@@ -30,15 +45,14 @@ public class SubwayScreenApp {
         List<Station> stations = stationsList;
         List<Train> trains = trainList;
 
-        // Setup GUI
-        javax.swing.JFrame frame = new javax.swing.JFrame("Subway Screen");
+        mapFrame = new JFrame("Subway Map");
         currentTrain = trains.get(currentTrainNumber - 1); // Train numbers are 1-based
         MapDisplay mapDisplay = new MapDisplay(trains, currentTrain);
-        frame.add(mapDisplay);
-        frame.setSize(1200, 800);
+        mapFrame.add(mapDisplay);
+        mapFrame.setSize(500, 275);
 
-        frame.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
+        //frame.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+        mapFrame.setVisible(true);
 
         SubwaySimulator simulator = new SubwaySimulator(stations, trains, mapDisplay, currentTrain, "out");
         simulator.startSimulation();
@@ -156,6 +170,28 @@ public class SubwayScreenApp {
         } catch (IOException e) {
             e.printStackTrace(); // Print the stack trace if an exception occurs
         }
+    }
+    
+    public File getFrameImage() {
+    	JFrame frameToConvert = mapFrame;
+        frameToConvert.pack();
+        frameToConvert.setVisible(true);
+        
+        BufferedImage image = new BufferedImage(500, 275, BufferedImage.TYPE_INT_ARGB);
+        
+        Graphics2D g2d = image.createGraphics();
+        frameToConvert.paint(g2d);
+        g2d.dispose();
+        
+        try {
+            File framePath = new File("frame.png");
+            ImageIO.write(image, "png", framePath);
+            return framePath;
+        } catch (IOException e) {
+        	e.printStackTrace();
+        	return null;
+        }
+        
     }
 }
 
