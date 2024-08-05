@@ -166,4 +166,24 @@ public class WeatherFetcher {
             Logger.getLogger(WeatherFetcher.class.getName()).log(Level.SEVERE, "Failed to parse weather data.", e);
         }
     }
+    
+    /**
+     * The main method will be used to test the API calls to different cities. 
+     * @param args
+     */
+    public static void main(String[] args) {
+    	//A few test cities to get weather information from. 
+        String[] sampleCities = {"Calgary", "Vancouver", "Hinton"};
+
+        for (String city : sampleCities) {
+            System.out.println("Fetching weather data for: " + city);
+            WeatherFetcher currentCityWeather = new WeatherFetcher(city);
+
+            System.out.println("Condition: " + currentCityWeather.getCondition());
+            System.out.println("Temperature: " + currentCityWeather.getTemperature());
+            System.out.println("Wind: " + currentCityWeather.getWind());
+            System.out.println("Humidity: " + currentCityWeather.getHumidity());
+            System.out.println("Rain: " + currentCityWeather.getRain() + "\n");
+        }
+    }
 }

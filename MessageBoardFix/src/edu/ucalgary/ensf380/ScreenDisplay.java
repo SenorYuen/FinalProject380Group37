@@ -42,7 +42,7 @@ public class ScreenDisplay extends JFrame {
      * @param endDate denotes the end time for the news to be fetched from. (format: yyyy-mm-d)
      * @param sortOrder use default of publishedAt. 
      */
-    public ScreenDisplay(String cityName, String startDate, String endDate, String sortOrder) {
+    public ScreenDisplay(String cityName, String startDate, String endDate, String sortOrder, String sqlPassword) {
         setTitle("Transit Information System");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1280, 720);
@@ -108,7 +108,7 @@ public class ScreenDisplay extends JFrame {
         ImageIcon resizedMapIcon = new ImageIcon(resizedMap);
         mapLabel.setIcon(resizedMapIcon);
         
-        InsertImage insert = new InsertImage();
+        InsertImage insert = new InsertImage(sqlPassword);
 	    adLabel = new JLabel();
 	    setImage("src\\edu\\ucalgary\\ensf380\\placeholderAd.jpg");
         
@@ -137,7 +137,7 @@ public class ScreenDisplay extends JFrame {
                 "\nRain today: " + displayRain);
         insertText(weatherInfo, weatherScreen, 20, 1, 50, 20, 20);
         
-        RetrieveImage relativeLinkDBRetriever = new RetrieveImage();
+        RetrieveImage relativeLinkDBRetriever = new RetrieveImage(sqlPassword);
         imageURLs = relativeLinkDBRetriever.getImagePaths();
         numberOfAds = imageURLs.size();
 
@@ -196,16 +196,17 @@ public class ScreenDisplay extends JFrame {
      * @param args
      */
     public static void main(String[] args) {
-        if (args.length != 4) {
-            System.out.println("Usage: SubwayScreenPrac <city_name> <start_date> <end_date> <sort_order>");
+        if (args.length != 5) {
+            System.out.println("Commandline arguments: <city_name> <start_date> <end_date> <sort_order>, <sql_password>");
             return;
         }
         String cityName = args[0];
         String startDate = args[1];
         String endDate = args[2];
         String sortOrder = args[3];
+        String sqlPassword = args[4];
         EventQueue.invokeLater(() -> {
-            new ScreenDisplay(cityName, startDate, endDate, sortOrder).setVisible(true);
+            new ScreenDisplay(cityName, startDate, endDate, sortOrder, sqlPassword).setVisible(true);
         });
     } 
 
