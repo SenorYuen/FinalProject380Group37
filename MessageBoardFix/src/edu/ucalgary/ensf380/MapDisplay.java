@@ -12,7 +12,8 @@ import java.util.List;
  */
 
 public class MapDisplay extends JPanel {
-    private List<Train> trains; //List of trains to display
+	private static final long serialVersionUID = 1L;
+	private List<Train> trains; //List of trains to display
     private Train currentTrain; //Current train to highlight
     private ImageIcon icon; //Icon for the subway map image
 
@@ -26,6 +27,7 @@ public class MapDisplay extends JPanel {
         this.trains = trains;
         this.currentTrain = currentTrain;
         this.icon = new ImageIcon("data/Trains.png"); //the file directory to the map image
+    }
     /**
      * Overridden method to paint the component. It draws the map image and trains.
      * 
