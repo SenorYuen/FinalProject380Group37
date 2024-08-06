@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Line {
-    // This class represents a subway line with the stations
+    //This class represents a subway line with the stations
 
     private String name;
     private List<Station> stations;

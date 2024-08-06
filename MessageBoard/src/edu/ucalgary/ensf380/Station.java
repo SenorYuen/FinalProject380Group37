@@ -1,14 +1,14 @@
 package edu.ucalgary.ensf380;
 
 public class Station {
-    private String lineCode; // Line code of the station
-    private String stationCode; // Station code
-    private String stationName; // Name of the station
-    private double x; // X coordinate of the station
-    private double y; // Y coordinate of the station
-    private Line line; // Line object associated with the station
+    private String lineCode; 
+    private String stationCode; 
+    private String stationName; 
+    private double x; 
+    private double y;
+    private Line line; 
 
-    // Constructor with lineCode, stationCode, stationName, x, y
+    //A constructor with lineCode, stationCode, stationName, x, y which comes from the csv file
     public Station(String lineCode, String stationCode, String stationName, double x, double y) {
         this.lineCode = lineCode;
         this.stationCode = stationCode;
@@ -17,7 +17,7 @@ public class Station {
         this.y = y;
     }
 
-    // Constructor with stationCode, stationName, x, y
+    //A Constructor with stationCode, stationName, x, y
     public Station(String stationCode, String stationName, double x, double y) {
         this.stationCode = stationCode;
         this.stationName = stationName;
@@ -26,42 +26,42 @@ public class Station {
     }
 
     public String getLineCode() {
-        // Get the line code of the station
+        //Getter for the line code of the station
         return lineCode;
     }
 
     public String getStationCode() {
-        // Get the station code
+        //This Gets the station code
         return stationCode;
     }
 
     public String getStationName() {
-        // Get the name of the station
+        //Getter for the name of the station
         return stationName;
     }
 
     public double getX() {
-        // Get the X coordinate of the station
+        //Get the X coordinate of the station
         return x;
     }
 
     public double getY() {
-        // Get the Y coordinate of the station
+        //Get the Y coordinate of the station
         return y;
     }
 
     public Line getLine() {
-        // Get the line associated with the station
+        //gets the line thats assoicated with the station
         return line;
     }
 
     public void setLine(Line line) {
-        // Set the line associated with the station
+        //Sets the line associated with the station
         this.line = line;
     }
 
     public String getName() {
-        // Get the name of the station (this method is added for compatibility with the Line class)
+        //Get the name of the station(this method is added for compatibility with the Line class)
         return stationName;
     }
 }

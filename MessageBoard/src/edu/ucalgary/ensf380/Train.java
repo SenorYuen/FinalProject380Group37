@@ -1,16 +1,16 @@
 package edu.ucalgary.ensf380;
 
 public class Train {
-    private String trainNum; // Train number
-    private Line currentLine; // Current line the train is on
-    private Station currentStation; // Current station the train is at
-    private double x; // X coordinate of the train
-    private double y; // Y coordinate of the train
-    private String direction; // Direction of the train's movement
-    private Station destination; // Destination station of the train
+    private String trainNum; 
+    private Line currentLine;
+    private Station currentStation; 
+    private double x; 
+    private double y; 
+    private String direction; 
+    private Station destination; 
 
     public Train(String trainNum, Line currentLine, Station currentStation) {
-        // Constructor to initialize the Train
+        //A constructor to initialize the Trains
         this.trainNum = trainNum;
         this.currentLine = currentLine;
         this.currentStation = currentStation;
@@ -24,57 +24,57 @@ public class Train {
     }
 
     public Line getCurrentLine() {
-        // Get the current line the train is on
+        //gets whatever line the train is currently on
         return currentLine;
     }
 
     public Station getCurrentStation() {
-        // Get the current station the train is at
+        //gets the current station the train is at
         return currentStation;
     }
 
     public void setCurrentStation(Station currentStation) {
-        // Set the current station the train is at
+        //sets the current station the train is at
         this.currentStation = currentStation;
     }
 
     public double getX() {
-        // Get the X coordinate of the train
+        //getting for the x coordinate of the train
         return x;
     }
 
     public void setX(double x) {
-        // Set the X coordinate of the train
+        //setter for the x coordinate of the train
         this.x = x;
     }
 
     public double getY() {
-        // Get the Y coordinate of the train
+        //Gets the y coordinate of the train
         return y;
     }
 
     public void setY(double y) {
-        // Set the Y coordinate of the train
+        //Setter for the the Y coordinate of the train
         this.y = y;
     }
 
     public String getDirection() {
-        // Get the direction of the train's movement
+        //this is to get the trains direction from where its moving
         return direction;
     }
 
     public void setDirection(String direction) {
-        // Set the direction of the train's movement
+        //Setter for the direction of the train's movement
         this.direction = direction;
     }
 
     public Station getDestination() {
-        // Get the destination station of the train
+        //Gets the destination station of where the train is going to end up
         return destination;
     }
 
     public void setDestination(Station destination) {
-        // Set the destination station of the train
+        //Sets the destination station of the train
         this.destination = destination;
     }
 }
