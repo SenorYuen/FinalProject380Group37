@@ -12,7 +12,7 @@ public class InsertImage {
  * inserts image paths into the database.
  * This class connects to a MySQL database and allows us to insert images into it
  * @author Faris <a href="mailto:faris.janjua@ucalgary.ca">faris.janjua@ucalgary.ca</a>
- * @version 1.0
+ * @version 1.1
  * @since 1.0
  */
     public InsertImage(String sqlPassword) {
