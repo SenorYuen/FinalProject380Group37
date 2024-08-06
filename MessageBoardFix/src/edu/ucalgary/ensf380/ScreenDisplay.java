@@ -143,6 +143,37 @@ public class ScreenDisplay extends JFrame {
         imageURLs = relativeLinkDBRetriever.getImagePaths();
         numberOfAds = imageURLs.size();
 
+        //Updates the current train info every 5 seconds.
+        trainTimer = new Timer(5000, new ActionListener() {
+        	@Override
+            public void actionPerformed(ActionEvent e) {
+        		trainPanel.removeAll();
+        		trainInfo = mapLogic.getTrainInfo();
+                trainPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 1, 1));
+                
+            	JLabel previousStation = new JLabel(trainInfo.get(0));
+            	previousStation.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+            	trainPanel.add(previousStation, BorderLayout.CENTER);
+            	
+            	JLabel nextStation1 = new JLabel(trainInfo.get(1));
+            	nextStation1.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+            	trainPanel.add(nextStation1, BorderLayout.CENTER);
+            	
+            	JLabel nextStation2 = new JLabel(trainInfo.get(2));
+            	nextStation2.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+            	trainPanel.add(nextStation2, BorderLayout.CENTER);
+                
+            	JLabel nextStation3 = new JLabel(trainInfo.get(3));
+            	nextStation3.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        	  	trainPanel.add(nextStation3, BorderLayout.CENTER);
+
+            	JLabel nextStation4 = new JLabel(trainInfo.get(4));
+            	nextStation4.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+            	trainPanel.add(nextStation4, BorderLayout.CENTER);
+        	}
+        });
+        trainTimer.start();
+        
         //Logic for swapping the map and the ads.
         adTimer = new Timer(10000, new ActionListener() {
             boolean x = true;
@@ -187,37 +218,6 @@ public class ScreenDisplay extends JFrame {
         });
 
         adTimer.start();
-        
-        //Updates the current train info every 5 seconds.
-        trainTimer = new Timer(5000, new ActionListener() {
-        	@Override
-            public void actionPerformed(ActionEvent e) {
-        		trainPanel.removeAll();
-        		trainInfo = mapLogic.getTrainInfo();
-                trainPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 1, 1));
-                
-            	JLabel previousStation = new JLabel(trainInfo.get(0));
-            	previousStation.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-            	trainPanel.add(previousStation, BorderLayout.CENTER);
-            	
-            	JLabel nextStation1 = new JLabel(trainInfo.get(1));
-            	nextStation1.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-            	trainPanel.add(nextStation1, BorderLayout.CENTER);
-            	
-            	JLabel nextStation2 = new JLabel(trainInfo.get(2));
-            	nextStation2.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-            	trainPanel.add(nextStation2, BorderLayout.CENTER);
-                
-            	JLabel nextStation3 = new JLabel(trainInfo.get(3));
-            	nextStation3.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        	  	trainPanel.add(nextStation3, BorderLayout.CENTER);
-
-            	JLabel nextStation4 = new JLabel(trainInfo.get(4));
-            	nextStation4.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-            	trainPanel.add(nextStation4, BorderLayout.CENTER);
-        	}
-        });
-        trainTimer.start();
 	  	
         //Create a new news instance and fetch the data. Use the getter to put it in a list.
         NewsFetcher newsApiClient = new NewsFetcher(cityName, startDate, endDate, sortOrder);
@@ -325,7 +325,7 @@ public class ScreenDisplay extends JFrame {
     public void setImage(String path) {
         String adPath = path;
         ImageIcon adIcon = new ImageIcon(adPath); 
-        Image resizedAd = adIcon.getImage().getScaledInstance(500, 500, Image.SCALE_SMOOTH);
+        Image resizedAd = adIcon.getImage().getScaledInstance(450, 450, Image.SCALE_SMOOTH);
         resizedAdIcon = new ImageIcon(resizedAd);
         adLabel.setIcon(resizedAdIcon);
     }

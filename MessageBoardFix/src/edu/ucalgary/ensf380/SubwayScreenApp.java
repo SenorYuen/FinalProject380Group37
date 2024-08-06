@@ -221,13 +221,6 @@ public class SubwayScreenApp extends JFrame{
         mapFrame.pack();
         mapFrame.setVisible(true);
 
-        // Add a small delay to ensure the frame is fully rendered
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
         // Get the dimensions of the frame's content pane
         Dimension frameSize = mapFrame.getContentPane().getSize();
         int width = frameSize.width;
