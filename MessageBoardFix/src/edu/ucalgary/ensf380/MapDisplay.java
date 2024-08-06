@@ -64,7 +64,7 @@ public class MapDisplay extends JPanel {
             }
             //This adjust the train coordinates so its in scale with its position
             int trainX = imageX + (int) (train.getX() * imageWidth / 1200.0); 
-            int trainY = imageY + (int) (train.getY() * imageHeight / 800.0); 
+            int trainY = imageY + (int) (train.getY() * imageHeight / 720.0); 
             g.fillOval(trainX, trainY, 10, 10); //This chooses the shape of the train on the screen
         }
     }

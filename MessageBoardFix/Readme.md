@@ -39,47 +39,20 @@ MySQL client
     );
     ```
 
-## Inserting Image Paths
+## Running the Program:
+1. Using Exlipse, navigate to the ScreenDisplay.java class.
+2. Press the arrow next to the Run icon, and press "Run Configurations..."
+3. Navigate to arguments, and fill in the following information separated by spaces:
+- City startDate endDate "publishedAt" sqlDatabasePassword trainNumber
+    - City denotes the city from which the weather and news data should be fetched from.
+    - startDate and endDate specifies when the range of time when news articles should be fetched from (use yyyy-mm-dd format)
+    - "publishedAt" is a constant that denotes how the headlines are sorted.
+    - sqlDatabasePassword is dependent on the user, and is used to allow for the Java application to connect to the database using a DBMS of their choice. 
+    - trainNumber denotes the number of the train that the system will use as the current train (a number from 1-12)
+- An example of using this format can be:
+- "Calgary 2024-08-03 20204-08-04 publishedAt pleasework 6"
 
-The `InsertImage` class inserts paths of advertisement images into the database. 
 
-Ensure sure you are in the `src` directory when compiling and running the Java files.
-
-1. Navigate to the `MessageBoard` directory:
-
-    ```
-    cd Path/to/project/MessageBoard/
-    ```
-
-2. Compile the `InsertImage` class:
-
-    ```
-    javac src/edu/ucalgary/ensf380/InsertImage.java
-    ```
-
-3. Run the `InsertImage` class, passing your MySQL root password as an argument:
-
-    ```
-    java src/edu.ucalgary.ensf380.InsertImage <your_mysql_password>
-    ```
-
-## Retrieving and Displaying Image Paths
-
-The `RetrieveImage` Grabs the images that have just been fetched, and displays  them
-
-1. Compile the `RetrieveImage` class:
-
-    ```
-    javac src/edu/ucalgary/ensf380/RetrieveImage.java
-    ```
-
-2. Run the `RetrieveImage` class, passing your MySQL root password as an argument:
-
-    ```
-    java src/edu.ucalgary.ensf380.RetrieveImage <your_mysql_password>
-    ```
-
-3. The images will be fetched from the database and displayed.
 
 
 
