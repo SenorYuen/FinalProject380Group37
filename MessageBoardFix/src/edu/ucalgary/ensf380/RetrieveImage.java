@@ -12,12 +12,22 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.Timer;
 
+/**
+ * This class will handle establishing a connection to the database, and retreiving the images. 
+ * @author Faris <a href="mailto:faris.janjua@ucalgary.ca">faris.janjua@ucalgary.ca</a>
+ * @version 1.0
+ * @since 1.0
+ */
 public class RetrieveImage {
 
     private static List<String> imagePaths = new ArrayList<>();
     private static int currentIndex = 0;
     private static JLabel label;
-
+    
+    /**
+     * The constructor will establish a connection, and act as a helper function by calling everything else.
+     * @param sqlPassword will be sourced from ScreenDisplay, and will be used to authenticate the user's SQL connection
+     */
     public RetrieveImage(String sqlPassword) {
         fetchImagePaths(sqlPassword);
         if (!imagePaths.isEmpty()) {
@@ -27,6 +37,10 @@ public class RetrieveImage {
         }
     }
 
+    /**
+     * This method will handle making the connection to the SQL database and sending a query to the database to retrieve the images.
+     * @param sqlPassword will be sourced from the constructor, and will authenticate the user's connection.
+     */
     public static void fetchImagePaths(String sqlPassword) {
         String url = "jdbc:mysql://localhost:3306/SubwayScreenAdvertisements";
         String user = "root";
@@ -48,29 +62,11 @@ public class RetrieveImage {
         }
     }
 
+    /**
+     * This is a getter to retrieve the list of strings that golds the image paths.
+     * @return an array list of strings/
+     */
     public List<String> getImagePaths() {
         return new ArrayList<>(imagePaths);
-    }
-
-//    private static void displayImage() {
-//        JFrame frame = new JFrame();
-//        label = new JLabel();
-//        frame.add(label);
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        frame.pack();
-//        frame.setVisible(true);
-//
-//        Timer timer = new Timer(10000, e -> updateImage());
-//        timer.start();
-//        updateImage(); // Display the first image immediately
-//    }
-    
-    private static void updateImage() {
-        if (currentIndex >= imagePaths.size()) {
-            currentIndex = 0;
-        }
-        ImageIcon icon = new ImageIcon(imagePaths.get(currentIndex));
-        label.setIcon(icon);
-        currentIndex++;
     }
 }

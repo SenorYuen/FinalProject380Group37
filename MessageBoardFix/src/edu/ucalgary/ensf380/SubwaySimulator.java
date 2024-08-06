@@ -108,8 +108,8 @@ public class SubwaySimulator {
      * @param train the train whose route we wnat displayed on the main screen
      * @return a list of strings describing the train's route and where it is going to
      */
-    public ArrayList<String> displayTrainRoute(Train train) {
-        
+    public static ArrayList<String> displayTrainRoute(Train train) {
+    	Line line = train.getCurrentLine();
         List<Station> stations = line.getStations();
         int currentIndex = stations.indexOf(train.getCurrentStation());
         int numStations = stations.size();

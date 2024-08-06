@@ -169,7 +169,7 @@ public class WeatherFetcher {
     
     /**
      * The main method will be used to test the API calls to different cities. 
-     * @param args
+     * @param args 
      */
     public static void main(String[] args) {
     	//A few test cities to get weather information from. 

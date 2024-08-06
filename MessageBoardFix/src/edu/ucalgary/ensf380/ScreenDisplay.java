@@ -45,6 +45,8 @@ public class ScreenDisplay extends JFrame {
      * @param startDate denotes the start time for the news to be fetched from. (format: yyyy-mm-dd)
      * @param endDate denotes the end time for the news to be fetched from. (format: yyyy-mm-d)
      * @param sortOrder use default of publishedAt. 
+     * @param sqlPassword is sourced from the command line; contains the user's sql root password
+     * @param trainNumber contains the train number for the current train.
      */
     public ScreenDisplay(String cityName, String startDate, String endDate, String sortOrder, String sqlPassword, String trainNumber) {
         setTitle("Transit Information System");
@@ -52,12 +54,13 @@ public class ScreenDisplay extends JFrame {
         setSize(1280, 720);
         setLocationRelativeTo(null);
         
+        //Initialize all of the JPanels
         advertisementPanel = new JPanel();
         weatherPanel = new JPanel();
         trainPanel = new JPanel();
         newsPanel = new JPanel(new BorderLayout());
         
-        // Backgrounds
+        //Set background colours to make it look more like the transit screen
         advertisementPanel.setBackground(Color.decode("#9abed6"));
         weatherPanel.setBackground(Color.decode("#01205c"));
         newsPanel.setBackground(Color.BLACK);
@@ -104,9 +107,8 @@ public class ScreenDisplay extends JFrame {
         gridLayoutSetup.gridheight = 1;
         add(trainPanel, gridLayoutSetup);
         
-        //Train Map logic displaying
+        //Train Map logic - create a new instance of the map.
         SubwayScreenApp mapLogic = new SubwayScreenApp(Integer.parseInt(trainNumber));      
-        InsertImage insert = new InsertImage(sqlPassword);
 	    adLabel = new JLabel();
 	    setImage("src\\edu\\ucalgary\\ensf380\\placeholderAd.jpg");
         
@@ -135,28 +137,34 @@ public class ScreenDisplay extends JFrame {
                 "\nRain today: " + displayRain);
         insertText(weatherInfo, weatherPanel, 20, 1, 50, 20, 20);
         
+        //Establish a link to the database, and retrieve the URLs to be used for displaying
+        InsertImage insert = new InsertImage(sqlPassword);
         RetrieveImage relativeLinkDBRetriever = new RetrieveImage(sqlPassword);
         imageURLs = relativeLinkDBRetriever.getImagePaths();
         numberOfAds = imageURLs.size();
 
+        //Logic for swapping the map and the ads.
         adTimer = new Timer(10000, new ActionListener() {
             boolean x = true;
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (x) {
+                	//Display the snapshot of the map at a given time.
                     String mapPath = mapLogic.getFrameImage().getPath();
                     ImageIcon mapIcon = new ImageIcon(mapPath); 
-                    Image resizedMap = mapIcon.getImage().getScaledInstance(460, 250, Image.SCALE_SMOOTH);
+                    Image resizedMap = mapIcon.getImage().getScaledInstance(500, 275, Image.SCALE_SMOOTH);
                     Icon resizedMapIcon = new ImageIcon(resizedMap);
-                    adLabel.setIcon(resizedMapIcon);
+                    adLabel.setIcon(resizedMapIcon); //Display the map on the ad screen.
                     adTimer.setInitialDelay(5000); // display the map for 5 seconds
                 } else {
                 	System.out.println(currentURLIndex);
+                	//Reset the advertisement index if it exceeds the size of the array.
                 	if (currentURLIndex == (numberOfAds - 1)) {
                 		currentURLIndex = 0;
                 	}
                 	else {
+                		//Cycle through the paths.
                 		currentURLIndex ++;
                 	}
                 	String currentURL = imageURLs.get(currentURLIndex);
@@ -180,6 +188,7 @@ public class ScreenDisplay extends JFrame {
 
         adTimer.start();
         
+        //Updates the current train info every 5 seconds.
         trainTimer = new Timer(5000, new ActionListener() {
         	@Override
             public void actionPerformed(ActionEvent e) {
@@ -225,11 +234,11 @@ public class ScreenDisplay extends JFrame {
 
     /**
      * The main function that will run the GUI. Invokes the GUI constructor, which runs everything else.
-     * @param args
+     * @param args will house the command line arguments of cityName, startDate, endDate, sortOrder, sqlPassword, and train_number
      */
     public static void main(String[] args) {
         if (args.length != 6) {
-            System.out.println("Commandline arguments: <city_name> <start_date> <end_date> <sort_order>, <sql_password>, <trainNumber>");
+            System.out.println("Commandline arguments: <city_name> <start_date> <end_date> <sort_order>, <sql_password>, <train_number>");
             return;
         }
         String cityName = args[0];
