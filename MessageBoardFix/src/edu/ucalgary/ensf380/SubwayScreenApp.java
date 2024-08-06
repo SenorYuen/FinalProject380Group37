@@ -19,6 +19,7 @@ public class SubwayScreenApp extends JPanel{
     private static Line red, blue, green; // Line objects for red, blue, and green lines
     private static Train currentTrain; // The current train to be highlighted
     private static JFrame mapFrame;
+    private static ArrayList<String> trainInfo;
 
     public List<Station> getStationsList() {
 		return stationsList;
@@ -51,7 +52,7 @@ public class SubwayScreenApp extends JPanel{
         mapFrame.add(mapDisplay);
         mapFrame.setSize(500, 275);
 
-        //frame.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+        mapFrame.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         mapFrame.setVisible(true);
 
         SubwaySimulator simulator = new SubwaySimulator(stations, trains, mapDisplay, currentTrain, "out");
@@ -59,11 +60,21 @@ public class SubwayScreenApp extends JPanel{
 
         javax.swing.Timer timer = new javax.swing.Timer(15000, e -> {
             simulator.updatePositions();
+            trainInfo = SubwaySimulator.displayTrainRoute(currentTrain);
         });
         timer.start();
     }
 
-    public static void initializeSubwaySystem(String stationsFilePath, String trainsFilePath) {
+    public ArrayList<String> getTrainInfo() {
+    	trainInfo = SubwaySimulator.displayTrainRoute(currentTrain);
+		return trainInfo;
+	}
+
+	public static void setTrainInfo(ArrayList<String> trainInfo) {
+		SubwayScreenApp.trainInfo = trainInfo;
+	}
+
+	public static void initializeSubwaySystem(String stationsFilePath, String trainsFilePath) {
         // Method to initialize the subway system by loading stations and trains from files
         loadStationsFromFile(stationsFilePath);
         initializeLines();

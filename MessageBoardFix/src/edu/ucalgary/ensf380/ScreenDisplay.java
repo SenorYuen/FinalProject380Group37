@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -23,6 +24,7 @@ public class ScreenDisplay extends JFrame {
     
     private Timer adTimer;
     private Timer newsTimer;
+    private Timer trainTimer;
     private JLabel newsLabel;
     private String timeToDisplay;
     private JLabel adLabel;
@@ -34,6 +36,8 @@ public class ScreenDisplay extends JFrame {
     private List<String> imageURLs;
     private int currentURLIndex = -1;
     private final int numberOfAds;
+    
+    private static ArrayList<String> trainInfo;
     
     /**
      * The constructor will initialize the GUI and call all associated functions for displaying info.
@@ -100,8 +104,8 @@ public class ScreenDisplay extends JFrame {
         gridLayoutSetup.gridheight = 1;
         add(trainScreen, gridLayoutSetup);
         
+        //Train Map logic displaying
         SubwayScreenApp mapLogic = new SubwayScreenApp(Integer.parseInt(trainNumber));      
-        
         InsertImage insert = new InsertImage(sqlPassword);
 	    adLabel = new JLabel();
 	    setImage("src\\edu\\ucalgary\\ensf380\\placeholderAd.jpg");
@@ -109,7 +113,6 @@ public class ScreenDisplay extends JFrame {
         // swapping maps and images - will not be able to use the boolean for this one once we integrate all images
         advertisementPanel.setPreferredSize(new Dimension(500, 500));
         advertisementPanel.add(adLabel);
-
 
         //Handle the weather displaying. 
         weatherScreen.setLayout(new BorderLayout());
@@ -177,6 +180,36 @@ public class ScreenDisplay extends JFrame {
 
         adTimer.start();
         
+        trainTimer = new Timer(5000, new ActionListener() {
+        	@Override
+            public void actionPerformed(ActionEvent e) {
+        		trainScreen.removeAll();
+        		trainInfo = mapLogic.getTrainInfo();
+                trainScreen.setLayout(new FlowLayout(FlowLayout.LEFT, 1, 1));
+                
+            	JLabel previousStation = new JLabel(trainInfo.get(0));
+            	previousStation.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+            	trainScreen.add(previousStation, BorderLayout.CENTER);
+            	
+            	JLabel nextStation1 = new JLabel(trainInfo.get(1));
+            	nextStation1.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+            	trainScreen.add(nextStation1, BorderLayout.CENTER);
+            	
+            	JLabel nextStation2 = new JLabel(trainInfo.get(2));
+            	nextStation2.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+            	trainScreen.add(nextStation2, BorderLayout.CENTER);
+                
+            	JLabel nextStation3 = new JLabel(trainInfo.get(3));
+            	nextStation3.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        	  	trainScreen.add(nextStation3, BorderLayout.CENTER);
+
+            	JLabel nextStation4 = new JLabel(trainInfo.get(4));
+            	nextStation4.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+            	trainScreen.add(nextStation4, BorderLayout.CENTER);
+        	}
+        });
+        trainTimer.start();
+	  	
         //Create a new news instance and fetch the data. Use the getter to put it in a list.
         NewsFetcher newsApiClient = new NewsFetcher(cityName, startDate, endDate, sortOrder);
 
