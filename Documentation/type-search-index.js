@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"edu.ucalgary.ensf380","l":"SubwayScreenApp"}];updateSearchResults();
