@@ -58,10 +58,10 @@ public class ScreenDisplay extends JFrame {
         newsPanel = new JPanel(new BorderLayout());
         
         // Backgrounds
-        advertisementPanel.setBackground(Color.decode("#A9CCE3"));
-        weatherPanel.setBackground(Color.decode("#01266C"));
+        advertisementPanel.setBackground(Color.decode("#9abed6"));
+        weatherPanel.setBackground(Color.decode("#01205c"));
         newsPanel.setBackground(Color.BLACK);
-        trainPanel.setBackground(Color.decode("#CD5C5C"));
+        trainPanel.setBackground(Color.decode("#ba4a4a"));
 
         // GridBagLayout - Main Layout of Screen
         setLayout(new GridBagLayout());
@@ -278,12 +278,12 @@ public class ScreenDisplay extends JFrame {
         newsLabel.setSize(newsLabel.getPreferredSize()); 
         newsPanel.add(newsLabel);
 
-        newsTimer = new Timer(50, new ActionListener() {
+        newsTimer = new Timer(30, new ActionListener() {
             private int x = newsPanel.getWidth();
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                x -= 2; // Adjust this value to change the scrolling step
+                x -= 3; // Adjust this value to change the scrolling step
                 if (x < -newsLabel.getPreferredSize().width) {
                     currentTitleIndex = (currentTitleIndex + 1) % newsTitles.size();
                     String nextTitle = newsTitles.get(currentTitleIndex);
@@ -308,6 +308,11 @@ public class ScreenDisplay extends JFrame {
     	timeToDisplay = dateObject.format(targetFormat);
     }
     
+    /**
+     * This method will streamline the creation of placing images in the JPanel for advertisements
+     * 
+     * @param path accepts a file path for an image to be displayed.
+     */
     public void setImage(String path) {
         String adPath = path;
         ImageIcon adIcon = new ImageIcon(adPath); 

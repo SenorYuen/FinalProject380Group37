@@ -8,7 +8,13 @@ import java.util.Arrays;
 import java.util.List;
 
 public class InsertImage {
-
+ /**
+ * inserts image paths into the database.
+ * This class connects to a MySQL database and allows us to insert images into it
+ * @author Faris <a href="mailto:faris.janjua@ucalgary.ca">faris.janjua@ucalgary.ca</a>
+ * @version 1.0
+ * @since 1.0
+ */
     public InsertImage(String sqlPassword) {
         List<String> imagePaths = Arrays.asList(
             "..\\AdvertisementImages\\BMW.jpg",
@@ -16,7 +22,10 @@ public class InsertImage {
             "..\\AdvertisementImages\\Chicken.jpg",
             "..\\AdvertisementImages\\Burger.jpg"
         );
-
+  /**
+     * Constructs an InsertImage object with the database password
+     * @param password The password for connecting to the MySQL database
+    */
         String url = "jdbc:mysql://localhost:3306/SubwayScreenAdvertisements";
         String user = "root";
         String password = sqlPassword;
