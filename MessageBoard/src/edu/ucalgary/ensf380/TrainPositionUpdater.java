@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TrainPositionUpdater {
-    private List<Station> stations; // List of stations
+    private List<Station> stations; //create a list of stations
 
     public TrainPositionUpdater(List<Station> stations) {
         // Constructor to initialize the TrainPositionUpdater
@@ -16,47 +16,47 @@ public class TrainPositionUpdater {
     }
 
     public List<Train> parseTrainPositions(String filePath) {
-        // Method to parse train positions from a CSV file
+        // Method to parse train positions from a CSV file and creates the train objects
         List<Train> trains = new ArrayList<>();
 
         try (CSVReader reader = new CSVReader(new FileReader(filePath))) {
             String[] line;
-            reader.readNext(); // Skip header
+            reader.readNext(); //This is to Skip the header in the csv file
 
-            int trainId = 1; // Initialize train ID
+            int trainId = 1; //Initialize train ID to 1
 
             while ((line = reader.readNext()) != null) {
                 if (line.length < 7) {
-                    // Skip invalid lines
+                    //Skip invalid lines that dont have enough information
                     System.err.printf("Skipping invalid line: %s%n", String.join(",", line));
                     continue;
                 }
 
                 try {
-                    double x = Double.parseDouble(line[5]); // Parse X coordinate
-                    double y = Double.parseDouble(line[6]); // Parse Y coordinate
+                    double x = Double.parseDouble(line[5]); //taking out the x coordinate
+                    double y = Double.parseDouble(line[6]); //also taking out the y coordinate
 
-                    // Find the nearest station to the parsed coordinates
+                    // Find the nearest station to the coorinates from above
                     Station nearestStation = findNearestStation(x, y);
                     Train train = new Train(String.valueOf(trainId), nearestStation.getLine(), nearestStation);
                     train.setX(x);
                     train.setY(y);
-                    trains.add(train); // Add the train to the list
-                    trainId++; // Increment train ID for the next train
+                    trains.add(train); //Add the train to the list that we made
+                    trainId++; 
                 } catch (NumberFormatException e) {
-                    // Skip lines with number format issues
+                    //Skip lines with number format issues
                     System.err.printf("Skipping invalid line due to number format issue: %s%n", String.join(",", line));
                 }
             }
         } catch (IOException | CsvValidationException e) {
-            e.printStackTrace(); // Print the stack trace if an exception occurs
+            e.printStackTrace(); //Print the stack trace if an exception occurs
         }
 
-        return trains; // Return the list of trains
+        return trains; //will return the list of trains
     }
 
     private Station findNearestStation(double x, double y) {
-        // Method to find the nearest station to given coordinates
+        //Method to find the nearest station to given coordinates of x and y
         Station nearestStation = null;
         double minDistance = Double.MAX_VALUE;
 
@@ -68,6 +68,6 @@ public class TrainPositionUpdater {
             }
         }
 
-        return nearestStation; // Return the nearest station
+        return nearestStation; //will return the nearest station
     }
 }

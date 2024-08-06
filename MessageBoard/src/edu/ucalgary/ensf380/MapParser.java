@@ -23,14 +23,14 @@ public class MapParser {
                 double x = Double.parseDouble(details[3]); //The X coordinate of the station
                 double y = Double.parseDouble(details[4]); //The Y coordinate of the station
 
-                //Create a new station with the parsed details
-                //This c
+        
+                //This creates a new station with the parsed details
                 Station station = new Station(lineCode, stationCode, stationName, x, y);
-                stations.add(station); // Add the station to the list
+                stations.add(station); //This will add the station to the list
             }
         } catch (IOException e) {
-            e.printStackTrace(); // Print the stack trace if an exception occurs
+            e.printStackTrace(); //Print the stack trace if an exception occurs
         }
-        return stations; // Return the list of stations
+        return stations; //This returns the list of stations
     }
 }
