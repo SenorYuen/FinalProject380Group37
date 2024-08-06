@@ -19,7 +19,7 @@ public class MapDisplay extends JPanel {
     /**
      * Initialize the MapDisplay with a list of trains and the current train 
      * @param trains the list of trains to display
-     * @param currentTrain the current train we wnat to highlight
+     * @param currentTrain the current train we want to highlight
      */
     public MapDisplay(List<Train> trains, Train currentTrain) {
         

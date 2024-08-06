@@ -43,7 +43,7 @@ public class Station {
         this.x = x;
         this.y = y;
     }
-    **
+    /**
      *Getter for the line code of the station
      * 
      * @return the line code of the station
