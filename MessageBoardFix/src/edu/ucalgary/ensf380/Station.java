@@ -1,14 +1,28 @@
 package edu.ucalgary.ensf380;
+/**
+ *The MapParser class is responsible for parsing station information from a CSV file
+ * @@author Omar Ahmed <a href="mailto:omar.ahmed3@ucalgary.ca">omar.ahmed3@ucalgary.ca</a>
+ * @version 1.1
+ * @since 2024-08-03
+ */
 
 public class Station {
-    private String lineCode; // Line code of the station
-    private String stationCode; // Station code
-    private String stationName; // Name of the station
-    private double x; // X coordinate of the station
-    private double y; // Y coordinate of the station
-    private Line line; // Line object associated with the station
+    private String lineCode; 
+    private String stationCode; 
+    private String stationName; 
+    private double x; 
+    private double y;
+    private Line line; 
 
-    // Constructor with lineCode, stationCode, stationName, x, y
+   
+    /**
+     * A constructor with lineCode, stationCode, stationName, x, y which comes from the csv file
+     * @param lineCode the code of the line the station is on
+     * @param stationCode the code of the station
+     * @param stationName the name of the station
+     * @param x the X coordinate of the station
+     * @param y the Y coordinate of the station
+     */
     public Station(String lineCode, String stationCode, String stationName, double x, double y) {
         this.lineCode = lineCode;
         this.stationCode = stationCode;
@@ -16,75 +30,90 @@ public class Station {
         this.x = x;
         this.y = y;
     }
-
-    // Constructor with stationCode, stationName, x, y
+    /**
+     * A Constructor with stationCode, stationName, x, y
+     * @param stationCode the code of the station
+     * @param stationName the name of the station
+     * @param x the X coordinate of the station
+     * @param y the Y coordinate of the station
+     */
     public Station(String stationCode, String stationName, double x, double y) {
         this.stationCode = stationCode;
         this.stationName = stationName;
         this.x = x;
         this.y = y;
     }
-
+    **
+     *Getter for the line code of the station
+     * 
+     * @return the line code of the station
+     */
     public String getLineCode() {
-        // Get the line code of the station
+        
         return lineCode;
     }
-
+    /**
+     *This Gets the station code
+     * 
+     * @return the station code
+     */
     public String getStationCode() {
-        // Get the station code
+       
         return stationCode;
     }
-
+    /**
+     *Getter for the name of the station
+     * 
+     * @return the name of the station
+     */
     public String getStationName() {
-        // Get the name of the station
+        
         return stationName;
     }
-
+    /**
+     *Get the X coordinate of the station
+     * 
+     * @return the X coordinate of the station
+     */
     public double getX() {
-        // Get the X coordinate of the station
+        
         return x;
     }
-
+    /**
+     * Get the Y coordinate of the station
+     * 
+     * @return the Y coordinate of the station
+     */
     public double getY() {
-        // Get the Y coordinate of the station
+        
         return y;
     }
-
+    /**
+     *gets the line thats assoicated with the station
+     * 
+     * @return the line associated with the station
+     */
     public Line getLine() {
-        // Get the line associated with the station
+        
         return line;
     }
-
+    /**
+     *Sets the line associated with the station
+     * 
+     * @param line the line to be associated with the station
+     */
     public void setLine(Line line) {
-        // Set the line associated with the station
+        
         this.line = line;
     }
-
+    /**
+     *Get the name of the station(this method is added to be compatible with the Line class)
+     * 
+     * 
+     * @return the name of the station
+     */
     public String getName() {
-        // Get the name of the station (this method is added for compatibility with the Line class)
+        //Get the name of the station(this method is added for compatibility with the Line class)
         return stationName;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
