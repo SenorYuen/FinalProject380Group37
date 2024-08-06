@@ -44,6 +44,11 @@ MySQL client
 2. Press the arrow next to the Run icon, and press "Run Configurations..."
 3. Navigate to arguments, and fill in the following information separated by spaces:
 - City startDate endDate "publishedAt" sqlDatabasePassword trainNumber
+    - City denotes the city from which the weather and news data should be fetched from.
+    - startDate and endDate specifies when the range of time when news articles should be fetched from (use yyyy-mm-dd format)
+    - "publishedAt" is a constant that denotes how the headlines are sorted.
+    - sqlDatabasePassword is dependent on the user, and is used to allow for the Java application to connect to the database using a DBMS of their choice. 
+    - trainNumber denotes the number of the train that the system will use as the current train (a number from 1-12)
 - An example of using this format can be:
 - "Calgary 2024-08-03 20204-08-04 publishedAt pleasework 6"
 
