@@ -11,7 +11,6 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-
 /**
  * This class will operate the train map and handle all of the updating.
  * @author Omar Ahmed <a href="mailto:omar.ahmed3@ucalgary.ca">omar.ahmed3@ucalgary.ca</a>
@@ -30,7 +29,7 @@ public class SubwayScreenApp extends JFrame{
 
     /**
      * This method will get the stationList as a List of Stations.
-     * @return returns List<Station>
+     * @return returns {@code List&lt;String&gt;}
      */
     public List<Station> getStationsList() {
 		return stationsList;
@@ -38,7 +37,7 @@ public class SubwayScreenApp extends JFrame{
 
     /**
      * THis method will get the list of trains
-     * @return: a List<Trains> containing the 12 trains.
+     * @return: a {@code List&lt;String&gt;} containing the 12 trains.
      */
 	public List<Train> getTrainList() {
 		return trainList;
@@ -78,7 +77,7 @@ public class SubwayScreenApp extends JFrame{
 
 	/**
 	 * This method will get the train info list from the simulator logic, and store it in a private instance.
-	 * @returns a List<String> containing relevant information for the specified train.
+	 * @returns a {@code List&lt;String&gt;} containing relevant information for the specified train.
 	 */
     public ArrayList<String> getTrainInfo() {
     	trainInfo = SubwaySimulator.displayTrainRoute(currentTrain);
@@ -87,8 +86,8 @@ public class SubwayScreenApp extends JFrame{
 
     /**
      * This method will initialize the Subway System by retrieving csv info and setting up trains.
-     * @param stationsFilePath the csv file path that the simulator will draw info from.
-     * @param trainsFilePath 
+     * @param stationsFilePath the csv file path that the simulator will draw station info from.
+     * @param trainsFilePath the csv file path that houses train data.
      */
 	public static void initializeSubwaySystem(String stationsFilePath, String trainsFilePath) {
         // Method to initialize the subway system by loading stations and trains from files
