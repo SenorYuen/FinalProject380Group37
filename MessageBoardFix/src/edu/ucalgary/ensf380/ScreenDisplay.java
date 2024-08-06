@@ -18,9 +18,9 @@ import java.time.format.DateTimeFormatter;
 public class ScreenDisplay extends JFrame {
     private static final long serialVersionUID = 1L;
     private JPanel advertisementPanel;
-    private JPanel weatherScreen;
-    private JPanel newsScreen;
-    private JPanel trainScreen;
+    private JPanel weatherPanel;
+    private JPanel newsPanel;
+    private JPanel trainPanel;
     
     private Timer adTimer;
     private Timer newsTimer;
@@ -53,15 +53,15 @@ public class ScreenDisplay extends JFrame {
         setLocationRelativeTo(null);
         
         advertisementPanel = new JPanel();
-        weatherScreen = new JPanel();
-        trainScreen = new JPanel();
-        newsScreen = new JPanel(new BorderLayout());
+        weatherPanel = new JPanel();
+        trainPanel = new JPanel();
+        newsPanel = new JPanel(new BorderLayout());
         
         // Backgrounds
         advertisementPanel.setBackground(Color.decode("#A9CCE3"));
-        weatherScreen.setBackground(Color.decode("#01266C"));
-        newsScreen.setBackground(Color.BLACK);
-        trainScreen.setBackground(Color.decode("#CD5C5C"));
+        weatherPanel.setBackground(Color.decode("#01266C"));
+        newsPanel.setBackground(Color.BLACK);
+        trainPanel.setBackground(Color.decode("#CD5C5C"));
 
         // GridBagLayout - Main Layout of Screen
         setLayout(new GridBagLayout());
@@ -84,7 +84,7 @@ public class ScreenDisplay extends JFrame {
         gridLayoutSetup.weighty = 0.9; 
         gridLayoutSetup.gridwidth = 1;
         gridLayoutSetup.gridheight = 1;
-        add(weatherScreen, gridLayoutSetup);
+        add(weatherPanel, gridLayoutSetup);
 
         //News screen grid formatting and adding
         gridLayoutSetup.gridx = 0;
@@ -93,7 +93,7 @@ public class ScreenDisplay extends JFrame {
         gridLayoutSetup.weighty = 0.6; 
         gridLayoutSetup.gridwidth = 2;
         gridLayoutSetup.gridheight = 1;
-        add(newsScreen, gridLayoutSetup);
+        add(newsPanel, gridLayoutSetup);
 
         //Train screen grid formatting and adding
         gridLayoutSetup.gridx = 0; 
@@ -102,7 +102,7 @@ public class ScreenDisplay extends JFrame {
         gridLayoutSetup.weighty = 0.2;
         gridLayoutSetup.gridwidth = 2;
         gridLayoutSetup.gridheight = 1;
-        add(trainScreen, gridLayoutSetup);
+        add(trainPanel, gridLayoutSetup);
         
         //Train Map logic displaying
         SubwayScreenApp mapLogic = new SubwayScreenApp(Integer.parseInt(trainNumber));      
@@ -115,7 +115,7 @@ public class ScreenDisplay extends JFrame {
         advertisementPanel.add(adLabel);
 
         //Handle the weather displaying. 
-        weatherScreen.setLayout(new BorderLayout());
+        weatherPanel.setLayout(new BorderLayout());
         WeatherFetcher weatherData = new WeatherFetcher(cityName);
         
         //Use getters to obtain all of the data fetched by the API.
@@ -133,7 +133,7 @@ public class ScreenDisplay extends JFrame {
                 "\nHumidity: " + displayHumidity + 
                 "\nWind Speed: " + displayWindSpeed +
                 "\nRain today: " + displayRain);
-        insertText(weatherInfo, weatherScreen, 20, 1, 50, 20, 20);
+        insertText(weatherInfo, weatherPanel, 20, 1, 50, 20, 20);
         
         RetrieveImage relativeLinkDBRetriever = new RetrieveImage(sqlPassword);
         imageURLs = relativeLinkDBRetriever.getImagePaths();
@@ -173,7 +173,7 @@ public class ScreenDisplay extends JFrame {
                         "\nHumidity: " + displayHumidity + 
                         "\nWind Speed: " + displayWindSpeed +
                         "\nRain today: " + displayRain);
-                insertText(weatherInfo, weatherScreen, 20, 1, 50, 20, 20);
+                insertText(weatherInfo, weatherPanel, 20, 1, 50, 20, 20);
                 x = !x;
             }
         });
@@ -183,29 +183,29 @@ public class ScreenDisplay extends JFrame {
         trainTimer = new Timer(5000, new ActionListener() {
         	@Override
             public void actionPerformed(ActionEvent e) {
-        		trainScreen.removeAll();
+        		trainPanel.removeAll();
         		trainInfo = mapLogic.getTrainInfo();
-                trainScreen.setLayout(new FlowLayout(FlowLayout.LEFT, 1, 1));
+                trainPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 1, 1));
                 
             	JLabel previousStation = new JLabel(trainInfo.get(0));
             	previousStation.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-            	trainScreen.add(previousStation, BorderLayout.CENTER);
+            	trainPanel.add(previousStation, BorderLayout.CENTER);
             	
             	JLabel nextStation1 = new JLabel(trainInfo.get(1));
             	nextStation1.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-            	trainScreen.add(nextStation1, BorderLayout.CENTER);
+            	trainPanel.add(nextStation1, BorderLayout.CENTER);
             	
             	JLabel nextStation2 = new JLabel(trainInfo.get(2));
             	nextStation2.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-            	trainScreen.add(nextStation2, BorderLayout.CENTER);
+            	trainPanel.add(nextStation2, BorderLayout.CENTER);
                 
             	JLabel nextStation3 = new JLabel(trainInfo.get(3));
             	nextStation3.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        	  	trainScreen.add(nextStation3, BorderLayout.CENTER);
+        	  	trainPanel.add(nextStation3, BorderLayout.CENTER);
 
             	JLabel nextStation4 = new JLabel(trainInfo.get(4));
             	nextStation4.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-            	trainScreen.add(nextStation4, BorderLayout.CENTER);
+            	trainPanel.add(nextStation4, BorderLayout.CENTER);
         	}
         });
         trainTimer.start();
@@ -274,12 +274,12 @@ public class ScreenDisplay extends JFrame {
         newsLabel.setForeground(Color.WHITE);
         newsLabel.setOpaque(true); 
         newsLabel.setBackground(Color.BLACK); 
-        newsScreen.setLayout(null); 
+        newsPanel.setLayout(null); 
         newsLabel.setSize(newsLabel.getPreferredSize()); 
-        newsScreen.add(newsLabel);
+        newsPanel.add(newsLabel);
 
         newsTimer = new Timer(50, new ActionListener() {
-            private int x = newsScreen.getWidth();
+            private int x = newsPanel.getWidth();
 
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -289,7 +289,7 @@ public class ScreenDisplay extends JFrame {
                     String nextTitle = newsTitles.get(currentTitleIndex);
                     newsLabel.setText(nextTitle);
                     newsLabel.setSize(newsLabel.getPreferredSize()); // Update size based on new text
-                    x = newsScreen.getWidth();
+                    x = newsPanel.getWidth();
                 }
                 newsLabel.setLocation(x, newsLabel.getY());
             }
