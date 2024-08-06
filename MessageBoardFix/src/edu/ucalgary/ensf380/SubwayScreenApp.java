@@ -12,8 +12,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class SubwayScreenApp extends JPanel{
-    private static List<Station> stationsList = new ArrayList<>(); // List to store stations
+/**
+ * This class will operate the train map and handle all of the updating.
+ * @author Omar Ahmed <a href="mailto:omar.ahmed3@ucalgary.ca">omar.ahmed3@ucalgary.ca</a>
+ * @version 1.4
+ * @since 1.0
+ */
+public class SubwayScreenApp extends JFrame{
+	private static final long serialVersionUID = 1L;
+	private static List<Station> stationsList = new ArrayList<>(); // List to store stations
     private static List<Line> lineList = new ArrayList<>(); // List to store lines
     private static List<Train> trainList = new ArrayList<>(); // List to store trains
     private static Line red, blue, green; // Line objects for red, blue, and green lines
@@ -21,22 +28,26 @@ public class SubwayScreenApp extends JPanel{
     private static JFrame mapFrame;
     private static ArrayList<String> trainInfo;
 
+    /**
+     * This method will get the stationList as a List of Stations.
+     * @return returns List<Station>
+     */
     public List<Station> getStationsList() {
 		return stationsList;
 	}
 
-	public static void setStationsList(List<Station> stationsList) {
-		SubwayScreenApp.stationsList = stationsList;
-	}
-
+    /**
+     * THis method will get the list of trains
+     * @return: a List<Trains> containing the 12 trains.
+     */
 	public List<Train> getTrainList() {
 		return trainList;
 	}
 
-	public static void setTrainList(List<Train> trainList) {
-		SubwayScreenApp.trainList = trainList;
-	}
-
+	/**
+	 * This constructor will run the subway screen app. it will run the GUI for the map and plot all the trains.
+	 * @param currentTrainNumber is the train specified by the command line.
+	 */
 	public SubwayScreenApp(int currentTrainNumber) {
 
         // Initialize the subway system
@@ -50,7 +61,7 @@ public class SubwayScreenApp extends JPanel{
         currentTrain = trains.get(currentTrainNumber - 1); // Train numbers are 1-based
         MapDisplay mapDisplay = new MapDisplay(trains, currentTrain);
         mapFrame.add(mapDisplay);
-        mapFrame.setSize(500, 275);
+        mapFrame.setSize(1200, 800);
 
         mapFrame.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         mapFrame.setVisible(true);
@@ -65,15 +76,20 @@ public class SubwayScreenApp extends JPanel{
         timer.start();
     }
 
+	/**
+	 * This method will get the train info list from the simulator logic, and store it in a private instance.
+	 * @returns a List<String> containing relevant information for the specified train.
+	 */
     public ArrayList<String> getTrainInfo() {
     	trainInfo = SubwaySimulator.displayTrainRoute(currentTrain);
 		return trainInfo;
 	}
 
-	public static void setTrainInfo(ArrayList<String> trainInfo) {
-		SubwayScreenApp.trainInfo = trainInfo;
-	}
-
+    /**
+     * This method will initialize the Subway System by retrieving csv info and setting up trains.
+     * @param stationsFilePath the csv file path that the simulator will draw info from.
+     * @param trainsFilePath 
+     */
 	public static void initializeSubwaySystem(String stationsFilePath, String trainsFilePath) {
         // Method to initialize the subway system by loading stations and trains from files
         loadStationsFromFile(stationsFilePath);
@@ -82,6 +98,10 @@ public class SubwayScreenApp extends JPanel{
         loadTrainsFromFile(trainsFilePath);
     }
 
+	/**
+	 * This method will read csvs and create the stations.
+	 * @param filePath: a string that specifies the CSV to read from.
+	 */
     private static void loadStationsFromFile(String filePath) {
         // Method to load stations from a CSV file
 
@@ -104,7 +124,10 @@ public class SubwayScreenApp extends JPanel{
             e.printStackTrace(); // Print the stack trace if an exception occurs
         }
     }
-
+    
+    /**
+     * This method will initialize the different train lines.
+     */
     private static void initializeLines() {
         // Method to initialize the subway lines
         red = new Line("Red"); // Initialize red line
@@ -112,6 +135,9 @@ public class SubwayScreenApp extends JPanel{
         green = new Line("Green"); // Initialize green line
     }
 
+    /**
+     * This method will assign all of the necessary stations to their respective lines.
+     */
     private static void assignStationsToLines() {
         // Method to assign stations to their respective lines
 
@@ -134,6 +160,10 @@ public class SubwayScreenApp extends JPanel{
         }
     }
 
+    /**
+     * THis method will load all 12 trains from the CSV file.
+     * @param filePath holds a string to the CSV.
+     */
     private static void loadTrainsFromFile(String filePath) {
         // Method to load trains from a CSV file
 
@@ -183,26 +213,44 @@ public class SubwayScreenApp extends JPanel{
         }
     }
     
+    /**
+     * This method will capture the train map at the moment it is called. It will return a file path that the other classes can access.
+     * @return a File object that contains the "screenshot".
+     */
     public File getFrameImage() {
-    	JFrame frameToConvert = mapFrame;
-        frameToConvert.pack();
-        frameToConvert.setVisible(true);
-        
-        BufferedImage image = new BufferedImage(500, 275, BufferedImage.TYPE_INT_ARGB);
-        
+        // Make sure the frame is visible and fully rendered
+        mapFrame.pack();
+        mapFrame.setVisible(true);
+
+        // Add a small delay to ensure the frame is fully rendered
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // Get the dimensions of the frame's content pane
+        Dimension frameSize = mapFrame.getContentPane().getSize();
+        int width = frameSize.width;
+        int height = frameSize.height;
+
+        // Create a BufferedImage with the same dimensions as the content pane
+        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = image.createGraphics();
-        frameToConvert.paint(g2d);
+        mapFrame.getContentPane().paint(g2d);
+
+        // Dispose of the graphics context to save resources.
         g2d.dispose();
-        
+
         try {
             File framePath = new File("frame.png");
             ImageIO.write(image, "png", framePath);
+
             return framePath;
         } catch (IOException e) {
-        	e.printStackTrace();
-        	return null;
+            e.printStackTrace();
+            return null;
         }
-        
     }
 }
 
