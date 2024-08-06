@@ -12,9 +12,9 @@ public class InsertImage {
     public InsertImage(String sqlPassword) {
         List<String> imagePaths = Arrays.asList(
             "..\\AdvertisementImages\\BMW.jpg",
-            "..\\AdvertisementImages\\Cat.jpg",
+            "..\\AdvertisementImages\\Subway.jpg",
             "..\\AdvertisementImages\\Chicken.jpg",
-            "..\\AdvertisementImages\\Travis.jpg"
+            "..\\AdvertisementImages\\Burger.jpg"
         );
 
         String url = "jdbc:mysql://localhost:3306/SubwayScreenAdvertisements";

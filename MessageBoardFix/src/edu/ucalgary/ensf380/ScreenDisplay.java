@@ -42,7 +42,7 @@ public class ScreenDisplay extends JFrame {
      * @param endDate denotes the end time for the news to be fetched from. (format: yyyy-mm-d)
      * @param sortOrder use default of publishedAt. 
      */
-    public ScreenDisplay(String cityName, String startDate, String endDate, String sortOrder, String sqlPassword) {
+    public ScreenDisplay(String cityName, String startDate, String endDate, String sortOrder, String sqlPassword, String trainNumber) {
         setTitle("Transit Information System");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1280, 720);
@@ -100,21 +100,16 @@ public class ScreenDisplay extends JFrame {
         gridLayoutSetup.gridheight = 1;
         add(trainScreen, gridLayoutSetup);
         
-        // Map image - will need to be replaced later. 
-        JLabel mapLabel = new JLabel();
-        String mapPath = "src\\edu\\ucalgary\\ensf380\\Trains.png";
-        ImageIcon mapIcon = new ImageIcon(mapPath); 
-        Image resizedMap = mapIcon.getImage().getScaledInstance(472, 264, Image.SCALE_SMOOTH);
-        ImageIcon resizedMapIcon = new ImageIcon(resizedMap);
-        mapLabel.setIcon(resizedMapIcon);
+        SubwayScreenApp mapLogic = new SubwayScreenApp(Integer.parseInt(trainNumber));      
         
         InsertImage insert = new InsertImage(sqlPassword);
 	    adLabel = new JLabel();
 	    setImage("src\\edu\\ucalgary\\ensf380\\placeholderAd.jpg");
         
         // swapping maps and images - will not be able to use the boolean for this one once we integrate all images
-        advertisementPanel.setPreferredSize(new Dimension(633, 400));
+        advertisementPanel.setPreferredSize(new Dimension(500, 500));
         advertisementPanel.add(adLabel);
+
 
         //Handle the weather displaying. 
         weatherScreen.setLayout(new BorderLayout());
@@ -147,6 +142,10 @@ public class ScreenDisplay extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (x) {
+                    String mapPath = mapLogic.getFrameImage().getPath();
+                    ImageIcon mapIcon = new ImageIcon(mapPath); 
+                    Image resizedMap = mapIcon.getImage().getScaledInstance(460, 250, Image.SCALE_SMOOTH);
+                    Icon resizedMapIcon = new ImageIcon(resizedMap);
                     adLabel.setIcon(resizedMapIcon);
                     adTimer.setInitialDelay(5000); // display the map for 5 seconds
                 } else {
@@ -196,8 +195,8 @@ public class ScreenDisplay extends JFrame {
      * @param args
      */
     public static void main(String[] args) {
-        if (args.length != 5) {
-            System.out.println("Commandline arguments: <city_name> <start_date> <end_date> <sort_order>, <sql_password>");
+        if (args.length != 6) {
+            System.out.println("Commandline arguments: <city_name> <start_date> <end_date> <sort_order>, <sql_password>, <trainNumber>");
             return;
         }
         String cityName = args[0];
@@ -205,8 +204,9 @@ public class ScreenDisplay extends JFrame {
         String endDate = args[2];
         String sortOrder = args[3];
         String sqlPassword = args[4];
+        String trainNumber = args[5];
         EventQueue.invokeLater(() -> {
-            new ScreenDisplay(cityName, startDate, endDate, sortOrder, sqlPassword).setVisible(true);
+            new ScreenDisplay(cityName, startDate, endDate, sortOrder, sqlPassword, trainNumber).setVisible(true);
         });
     } 
 
@@ -278,7 +278,7 @@ public class ScreenDisplay extends JFrame {
     public void setImage(String path) {
         String adPath = path;
         ImageIcon adIcon = new ImageIcon(adPath); 
-        Image resizedAd = adIcon.getImage().getScaledInstance(600, 600, Image.SCALE_SMOOTH);
+        Image resizedAd = adIcon.getImage().getScaledInstance(500, 500, Image.SCALE_SMOOTH);
         resizedAdIcon = new ImageIcon(resizedAd);
         adLabel.setIcon(resizedAdIcon);
     }
